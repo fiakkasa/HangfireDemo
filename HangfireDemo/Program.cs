@@ -11,14 +11,21 @@ var configuration = builder.Configuration;
 services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(options =>
+    options.MapTypeSpan()
+);
 
 // demo service to show case work in a hangfire context
 services.AddScoped<IProcessText, ProcessTextService>();
 
 services.AddHangfireScheduler(configuration);
 
+services.AddProblemDetails();
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -60,6 +60,7 @@ public static class HangfireExtensions
     {
         var hangfireConfig = app.ApplicationServices.GetRequiredService<IOptionsMonitor<HangfireConfig>>().CurrentValue;
         var shutdownToken = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>().ApplicationStopping;
+        var jobManager = app.ApplicationServices.GetRequiredService<IRecurringJobManager>();
 
         app.UseHangfireDashboard(
             hangfireConfig.DashboardPath,
@@ -68,7 +69,7 @@ public static class HangfireExtensions
 
         // recurring job example
         // note: ensure corresponding DI registrations are in place
-        RecurringJob.AddOrUpdate<IProcessText>(
+        jobManager.AddOrUpdate<IProcessText>(
             "Hourly time ticker",
             // note: ensure to pass the application stopping token as to notify hangfire when the application is shutting down and cancel the running job
             job => job.Process($"The time is '{DateTimeOffset.Now:s}'", shutdownToken),
