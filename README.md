@@ -2,7 +2,7 @@
 
 Quick demo of using hangfire with Mongo!
 
-📝 There are two kinds of jobs present, an on demand job that can be triggered via `ScheduleJobOnDemandController`, and a recurring job.
+📝 There are three kinds of jobs present, an on demand job that can be triggered via `JobsController`, an on demand scheduled job that can be triggered via `JobsController`, and a hourly recurring job registered during the application startup.
 
 ## Spinning up a docker instance of Mongo
 
